@@ -1,0 +1,62 @@
+# 1D CNN configuration
+# Optimized parameters for 1D CNN fall detection
+
+data:
+  window_size: 100
+  overlap: 0.5
+  normalize: true
+  feature_extraction: "raw"  # Use raw time series for CNN
+  batch_size: 32
+  test_size: 0.2
+  val_size: 0.1
+  random_state: 42
+
+model:
+  name: "1d_cnn"
+  params:
+    1d_cnn:
+      input_channels: 6
+      sequence_length: 100
+      num_classes: 2
+      hidden_dim: 128
+      num_layers: 4
+      dropout: 0.3
+
+training:
+  epochs: 150
+  learning_rate: 0.001
+  early_stopping_patience: 15
+  save_best_model: true
+  checkpoint_dir: "checkpoints"
+
+evaluation:
+  metrics:
+    - "accuracy"
+    - "precision"
+    - "recall"
+    - "f1_score"
+    - "sensitivity"
+    - "specificity"
+    - "auroc"
+    - "auprc"
+  plots:
+    - "confusion_matrix"
+    - "roc_curve"
+    - "precision_recall_curve"
+    - "calibration_curve"
+  save_plots: true
+  plots_dir: "assets/plots"
+
+logging:
+  level: "INFO"
+  log_dir: "logs"
+  tensorboard: true
+  wandb: false
+
+device:
+  auto_detect: true
+  cuda: true
+  mps: true
+  cpu: true
+
+seed: 42

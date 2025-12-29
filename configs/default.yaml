@@ -1,0 +1,97 @@
+# Default configuration for fall detection system
+# This file contains the default parameters for training and evaluation
+
+# Data configuration
+data:
+  window_size: 100
+  overlap: 0.5
+  normalize: true
+  feature_extraction: "raw"  # "raw", "statistical", "frequency", "combined"
+  batch_size: 32
+  test_size: 0.2
+  val_size: 0.1
+  random_state: 42
+
+# Model configuration
+model:
+  name: "1d_cnn"  # "random_forest", "1d_cnn", "lstm", "transformer"
+  params:
+    # Random Forest parameters
+    random_forest:
+      n_estimators: 100
+      max_depth: null
+      min_samples_split: 2
+      min_samples_leaf: 1
+      class_weight: "balanced"
+    
+    # 1D CNN parameters
+    1d_cnn:
+      input_channels: 6
+      sequence_length: 100
+      num_classes: 2
+      hidden_dim: 64
+      num_layers: 3
+      dropout: 0.2
+    
+    # LSTM parameters
+    lstm:
+      input_size: 6
+      hidden_size: 64
+      num_layers: 2
+      num_classes: 2
+      dropout: 0.2
+      bidirectional: true
+    
+    # Transformer parameters
+    transformer:
+      input_size: 6
+      d_model: 64
+      nhead: 4
+      num_layers: 2
+      num_classes: 2
+      dropout: 0.1
+
+# Training configuration
+training:
+  epochs: 100
+  learning_rate: 0.001
+  early_stopping_patience: 10
+  save_best_model: true
+  checkpoint_dir: "checkpoints"
+  
+# Evaluation configuration
+evaluation:
+  metrics:
+    - "accuracy"
+    - "precision"
+    - "recall"
+    - "f1_score"
+    - "sensitivity"
+    - "specificity"
+    - "auroc"
+    - "auprc"
+  plots:
+    - "confusion_matrix"
+    - "roc_curve"
+    - "precision_recall_curve"
+    - "calibration_curve"
+  save_plots: true
+  plots_dir: "assets/plots"
+
+# Logging configuration
+logging:
+  level: "INFO"
+  log_dir: "logs"
+  tensorboard: true
+  wandb: false
+  wandb_project: "fall-detection"
+
+# Device configuration
+device:
+  auto_detect: true
+  cuda: true
+  mps: true
+  cpu: true
+
+# Reproducibility
+seed: 42

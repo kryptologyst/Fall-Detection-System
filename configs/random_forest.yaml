@@ -1,0 +1,62 @@
+# Random Forest configuration
+# Optimized parameters for Random Forest fall detection
+
+data:
+  window_size: 100
+  overlap: 0.5
+  normalize: true
+  feature_extraction: "combined"  # Use combined features for RF
+  batch_size: 32
+  test_size: 0.2
+  val_size: 0.1
+  random_state: 42
+
+model:
+  name: "random_forest"
+  params:
+    random_forest:
+      n_estimators: 200
+      max_depth: 15
+      min_samples_split: 5
+      min_samples_leaf: 2
+      class_weight: "balanced"
+      random_state: 42
+
+training:
+  epochs: 1  # RF doesn't need multiple epochs
+  learning_rate: 0.001
+  early_stopping_patience: 10
+  save_best_model: true
+  checkpoint_dir: "checkpoints"
+
+evaluation:
+  metrics:
+    - "accuracy"
+    - "precision"
+    - "recall"
+    - "f1_score"
+    - "sensitivity"
+    - "specificity"
+    - "auroc"
+    - "auprc"
+  plots:
+    - "confusion_matrix"
+    - "roc_curve"
+    - "precision_recall_curve"
+    - "calibration_curve"
+  save_plots: true
+  plots_dir: "assets/plots"
+
+logging:
+  level: "INFO"
+  log_dir: "logs"
+  tensorboard: false
+  wandb: false
+
+device:
+  auto_detect: true
+  cuda: false
+  mps: false
+  cpu: true
+
+seed: 42
